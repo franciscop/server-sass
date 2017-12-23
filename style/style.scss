@@ -1,0 +1,11 @@
+$background: red;
+
+body {
+  div {
+    background: $background;
+  }
+}
+
+ul li:nth-child(3) {
+  background: $background;
+}

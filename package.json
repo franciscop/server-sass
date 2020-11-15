@@ -1,11 +1,13 @@
 {
   "name": "@server/sass",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Automatically compile SASS to CSS for your server.js project",
   "homepage": "https://github.com/franciscop/server-sass#README",
   "repository": "https://github.com/franciscop/server-sass.git",
   "bugs": "https://github.com/franciscop/server-sass/issues",
-  "funding": "https://www.paypal.me/franciscopresencia/19",
+  "funding": {
+    "url": "https://www.paypal.me/franciscopresencia/19"
+  },
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
   "license": "MIT",
   "main": "index.js",

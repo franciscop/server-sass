@@ -1,11 +1,11 @@
 {
   "name": "@server/sass",
   "version": "0.1.0",
-  "description": "",
+  "description": "Automatically compile SASS to CSS for your server.js project",
   "main": "index.js",
   "scripts": {
     "start": "node demo.js",
-    "test": "echo \"There are no tests yet, test it manually with 'npm start'\" && exit 1"
+    "test": ""
   },
   "keywords": [],
   "author": "",

@@ -1,28 +1,31 @@
-# SASS & SCSS for server.js
+# @server/sass
 
-A small plugin to handle SASS and SCSS.
+A small plugin to handle SASS and SCSS with [server.js](https://serverjs.io/). You request `/style.css` or `/style.min.css` and this plugin will make sure to compile it on each request for dev, or once on launch for production.
 
-> THIS IS **EXPERIMENTAL** right now.
+> THIS IS WORKING BUT **EXPERIMENTAL** right now.
 
-## Install
+## Getting Started
+
+First install the plugin:
 
 ```
 npm install @server/sass
 ```
 
-Then in your main `index.js`:
+Then in your main `index.js` include it with server.js:
 
 ```js
-const server = require('server');
+const server = require("server");
+const serverSass = require("@server/sass");
 
 // TEMPORARY; this line will change
-server.plugins.push(require('@server/sass'));
+server.plugins.push(serverSass);
 
 const { get } = server.router;
 const { render } = server.reply;
 
 // Render a single route for the homepage
-server(get('/', () => render('index.html')));
+server(get("/", () => render("index.html")));
 ```
 
 Then let's create this file. This will be a simple HTML file inside `views/index.html`:
@@ -30,21 +33,15 @@ Then let's create this file. This will be a simple HTML file inside `views/index
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Sass Demo</title>
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-  <h1>Hi there</h1>
-  <div>Hello world!</div>
-  <ul>
-    <li>Hi</li>
-    <li>There</li>
-    <li>What's</li>
-    <li>Up?</li>
-  </ul>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sass Demo</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <h1>Hi there</h1>
+    <div>Hello world!</div>
+  </body>
 </html>
 ```
 
@@ -52,53 +49,20 @@ The main important part here is the `/style.css`. This will be automatically com
 
 By default our entry point has to be on `style/style.scss`:
 
-
-
 ## Options
 
-The entry point (source) is by default on `style/style.scss`, but this can be changed:
+The only option available is the `source`, which can be specified as one of either:
 
 ```js
-server({ sass: { source: 'sass/style.sass' } });
+// With the default path:
+server({ sass: "style/style.scss" });
+server({ sass: { source: "style/style.scss" } });
+
+// But it can be anything really:
+server({ sass: "style.sass" });
+server({ sass: "sass/style.sass" });
 ```
 
-Our destination file is by default in `style.css` inside the public folder. This can be changed several ways:
+The extension can be either `.scss` or `.sass`, both will work properly.
 
-```js
-// Define a different public folder
-server({ public: 'wherever' });
-// => wherever/style.css
-
-// Define a different destination file. NOTE: see next section
-server({ sass: { destination: 'compiled.min.css' } });
-// => public/compiled.min.css
-
-// Change both of them. NOTE: see next section
-server({ public: 'wherever', sass: { destination: 'compiled.min.css' } });
-// => wherever/compiled.min.css
-
-// Define an absolute path. NOTE: see next section
-server({ sass: { destination: __dirname + '/style.css' } });
-```
-
-Note that the destination path needs to be publicly accessible for our code to be production ready.
-
-
-If you change the destination, you'll also need to change the url to match that of the public folder:
-
-```js
-// Default
-server();
-// destination => public/style.css
-// url => /style.css
-
-// Changing the destination needs to have
-server({ sass: { destination: 'compiled.min.css', url: '/compiled.min.css' } });
-// destination => public/compiled.min.css
-// url => /compiled.min.css
-
-// WRONG
-server({ sass: { destination: 'compiled.min.css' } });
-// destination => public/compiled.min.css
-// url => /style.css (DOES NOT MATCH)
-```
+The behaviour is a bit different for development and production, but from the front-end point of view you want to just request `/style.css` or `/style.min.css` (depending on your preferences).
